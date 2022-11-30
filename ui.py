@@ -8,13 +8,12 @@ THEME_COLOR = "#375362"
 class QuizInterface:
     def __init__(self, quiz_brain: QuizBrain):
         self.user_answer = None
-        self.user_answer: bool
         self.quiz = quiz_brain
         self.window = Tk()
         self.window.title("Quizler")
         self.window.config(padx=20, pady=20, bg=THEME_COLOR)
 
-        self.score_label = Label(text=f"Score:", bg=THEME_COLOR, fg="white")
+        self.score_label = Label(text=f"Score:{self.quiz.score}", bg=THEME_COLOR, fg="white")
         self.score_label.grid(column=1, row=0)
 
         self.canva = Canvas(height=250, width=300, bg="white")
@@ -40,12 +39,13 @@ class QuizInterface:
         self.canva.itemconfig(self.question_text, text=q_text)
 
     def true_button_action(self):
-        self.user_answer = True
+        self.user_answer = "True"
         self.check_the_answer()
 
     def false_button_action(self):
-        self.user_answer = False
+        self.user_answer = "False"
         self.check_the_answer()
 
     def check_the_answer(self):
+        print(self.user_answer)
         self.quiz.check_answer(self.user_answer)
