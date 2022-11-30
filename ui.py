@@ -31,9 +31,7 @@ class QuizInterface:
         self.buttonTrue.grid(column=0, row=2)
         self.buttonFalse = Button(image=false_btn, highlightthickness=0)
         self.buttonFalse.grid(column=1, row=2)
-
         self.get_next_question()
-
         self.window.mainloop()
 
     def get_next_question(self):
