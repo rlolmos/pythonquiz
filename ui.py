@@ -3,17 +3,19 @@ import html
 from quiz_brain import QuizBrain
 
 THEME_COLOR = "#375362"
-
+GREEN = "#00FF00"
+RED = "#FF0000"
 
 class QuizInterface:
     def __init__(self, quiz_brain: QuizBrain):
         self.user_answer = None
+        self.color = "white"
         self.quiz = quiz_brain
         self.window = Tk()
         self.window.title("Quizler")
         self.window.config(padx=20, pady=20, bg=THEME_COLOR)
 
-        self.score_label = Label(text=f"Score:{self.quiz.score}", bg=THEME_COLOR, fg="white")
+        self.score_label = Label(text=f"Score: {self.quiz.score}", bg=THEME_COLOR, fg="white")
         self.score_label.grid(column=1, row=0)
 
         self.canva = Canvas(height=250, width=300, bg="white")
@@ -35,6 +37,7 @@ class QuizInterface:
         self.window.mainloop()
 
     def get_next_question(self):
+        self.canva.config(bg="white")
         q_text = self.quiz.next_question()
         self.canva.itemconfig(self.question_text, text=q_text)
 
@@ -47,5 +50,14 @@ class QuizInterface:
         self.check_the_answer()
 
     def check_the_answer(self):
-        print(self.user_answer)
-        self.quiz.check_answer(self.user_answer)
+        is_right = self.quiz.check_answer(self.user_answer)
+        self.score_label.config(text=f"Score: {self.quiz.score}")
+        self.give_feedback(is_right)
+
+    def give_feedback(self, is_right):
+        if is_right:
+            self.color = GREEN
+        else:
+            self.color = RED
+        self.canva.config(bg=self.color)
+        self.window.after(700, self.get_next_question)
